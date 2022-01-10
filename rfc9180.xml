@@ -98,9 +98,9 @@ Specifically, encrypted messages convey an encryption key encapsulated with a
 public-key scheme, along with one or more arbitrary-sized ciphertexts encrypted
 using that key. This type of public key encryption has many applications in
 practice, including Messaging Layer Security <xref target="I-D.ietf-mls-protocol" format="default"/> and
-TLS-encrypted ClientHello messages <xref target="I-D.ietf-tls-esni" format="default"/>.</t>
+TLS Encrypted ClientHello messages <xref target="I-D.ietf-tls-esni" format="default"/>.</t>
       <t>Currently, there are numerous competing and non-interoperable standards and
-variants for hybrid encryption, mostly based on Elliptic Curve Integrated Encryption Schemes (ECIESes), including ANSI X9.63
+variants for hybrid encryption, mostly based on Elliptic Curve Integrated Encryption Schemes (ECIES), including ANSI X9.63
 (ECIES) <xref target="ANSI" format="default"/>, IEEE 1363a <xref target="IEEE1363" format="default"/>, ISO/IEC 18033-2 <xref target="ISO" format="default"/>, and Standards for Efficient Cryptography Group (SECG) SEC 1
 <xref target="SECG" format="default"/>.  See <xref target="MAEA10" format="default"/> for a thorough comparison.  All these existing
 schemes have problems, e.g., because they rely on outdated primitives, lack
@@ -255,7 +255,7 @@ operations, roles, and behaviors of HPKE:</t>
 	function can raise a <tt>DeserializeError</tt> error upon <tt>skXm</tt>
 	deserialization failure.</dd>
       </dl>
-      <t>A <em>ciphersuite</em> is a triple (KEM, KDF, and AEAD), containing a choice of algorithm
+      <t>A <em>ciphersuite</em> is a triple (KEM, KDF, AEAD), containing a choice of algorithm
 for each primitive.</t>
       <t>A set of algorithm identifiers for concrete instantiations of these
 primitives is provided in <xref target="ciphersuites" format="default"/>.  Algorithm identifier
@@ -528,8 +528,8 @@ private key and the entity that used the KEM to generate <tt>shared_secret</tt> 
 held the private key <tt>skS</tt>. This assurance is limited for the DHKEM
 variants defined in this document because of key compromise impersonation,
 as described in Sections <xref target="dhkem" format="counter"/> and <xref target="sec-properties" format="counter"/>. If in the PSK and
-AuthPSK modes, the <tt>psk</tt> and <tt>psk_id</tt> arguments are provided as required;
-then, the recipient is assured that the sender held the corresponding
+AuthPSK modes, the <tt>psk</tt> and <tt>psk_id</tt> arguments are provided as required,
+then the recipient is assured that the sender held the corresponding
 pre-shared key. See <xref target="sec-properties" format="default"/> for more details.</t>
         <t>The HPKE algorithm identifiers, i.e., the KEM <tt>kem_id</tt>, KDF <tt>kdf_id</tt>, and
 AEAD <tt>aead_id</tt> 2-byte code points, as defined in Tables <xref target="kemid-values" format="counter"/>, <xref target="kdfid-values" format="counter"/>,
@@ -958,7 +958,7 @@ scalar field of the curve being used. For this section, and for
 use an integer representation of private keys that is compatible with the
 <tt>OS2IP()</tt> function.</t>
           <t>For P-256, P-384, and P-521, the <tt>SerializePrivateKey()</tt> function of the KEM
-performs the field-element-to-octet-string conversion according to <xref target="SECG" format="default"/>. If
+performs the Field-Element-to-Octet-String conversion according to <xref target="SECG" format="default"/>. If
 the private key is an integer outside the range <tt>[0, order-1]</tt>, where <tt>order</tt>
 is the order of the curve being used, the private key <bcp14>MUST</bcp14> be reduced to its
 representative in <tt>[0, order-1]</tt> before being serialized.
@@ -1399,7 +1399,7 @@ suggests application-level mitigations for some of them.</t>
           <t>The DHKEM variants defined in this document are
 vulnerable to key compromise impersonation attacks <xref target="BJM97" format="default"/>,
 which means that sender authentication cannot be expected to hold in the
-Auth mode if the recipient private key <tt>skR</tt> is compromised and in the
+Auth mode if the recipient private key <tt>skR</tt> is compromised, and in the
 AuthPSK mode if the pre-shared key and the recipient private key <tt>skR</tt> are
 both compromised.
 
@@ -1471,7 +1471,7 @@ mentioned above. The analysis considers a sender that sends one message
 using the encryption context and additionally exports two independent
 secrets using the secret export interface.</t>
           <t>The table below summarizes the main results from <xref target="HPKEAnalysis" format="default"/>. <tt>N/A</tt>
-means that a property does not apply for the given mode, whereas <tt>y</tt> means that
+means that a property does not apply for the given mode, whereas <tt>Y</tt> means that
 	  the given mode satisfies the property.</t>
 
 <!--[rfced] Table 6 in this document does not have a title. Please
@@ -1489,27 +1489,27 @@ review, and provide a title if desired.-->
             <tbody>
               <tr>
                 <td align="left">Base</td>
-                <td align="center">y</td>
-                <td align="center">y</td>
+                <td align="center">Y</td>
+                <td align="center">Y</td>
                 <td align="center">N/A</td>
               </tr>
               <tr>
                 <td align="left">PSK</td>
-                <td align="center">y</td>
-                <td align="center">y</td>
-                <td align="center">y</td>
+                <td align="center">Y</td>
+                <td align="center">Y</td>
+                <td align="center">Y</td>
               </tr>
               <tr>
                 <td align="left">Auth</td>
-                <td align="center">y</td>
-                <td align="center">y</td>
-                <td align="center">y</td>
+                <td align="center">Y</td>
+                <td align="center">Y</td>
+                <td align="center">Y</td>
               </tr>
               <tr>
                 <td align="left">AuthPSK</td>
-                <td align="center">y</td>
-                <td align="center">y</td>
-                <td align="center">y</td>
+                <td align="center">Y</td>
+                <td align="center">Y</td>
+                <td align="center">Y</td>
               </tr>
             </tbody>
           </table>
@@ -1967,7 +1967,7 @@ These identifiers are two-byte values, so the maximum possible value is
   <back>
 
 <displayreference target="I-D.ietf-mls-protocol" to="MLS-PROTOCOL"/>
-<displayreference target="I-D.ietf-tls-esni" to="TLS-ESNI"/>
+<displayreference target="I-D.ietf-tls-esni" to="TLS-ECH"/>
 
     <references>
       <name>References</name>
